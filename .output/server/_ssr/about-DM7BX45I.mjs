@@ -1,0 +1,136 @@
+import { c as ShieldCheck, k as BookOpen, v as HeartHandshake, y as Compass } from "../_libs/lucide-react.mjs";
+import { s as siteName } from "./content-cZA_0I1g.mjs";
+import { h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { v as require_jsx_runtime } from "../_libs/@radix-ui/react-accordion+[...].mjs";
+import { a as Header, c as SectionHeading, i as Footer, n as Button, o as PageHero, r as Disclaimer, s as PageShellStyles, t as Breadcrumbs, u as TrustStrip } from "./site-BM2AtIc7.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/about-DM7BX45I.js
+var import_jsx_runtime = require_jsx_runtime();
+var kundli_method_default = "/assets/kundli-method-dZWFzqWG.jpg";
+function About() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PageShellStyles, {}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PageHero, {
+			eyebrow: "About Us",
+			title: "A practice built on precision, patience and honesty",
+			children: [siteName, " has guided families for more than twenty-five years, combining classical Vedic technique with plain, practical counsel."]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Breadcrumbs, { items: ["About"] }),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+			className: "section-shell grid gap-10 pb-16 lg:grid-cols-[1.1fr_.9fr]",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "space-y-4 leading-7 text-muted-foreground",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "font-display text-3xl text-maroon",
+						children: "The astrologer"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Trained in the classical Parashari tradition and practising from Pachera, Aligarh, our principal astrologer has studied more than eighteen thousand horoscopes across marriage, career, health, property and karmic questions. Consultations are conducted in Hindi and English." }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Every reading begins with verification of birth data, followed by an examination of the Lagna chart and the Navamsa (D-9). The Vimshottari Dasha sequence then establishes timing, and current transits refine the picture into something you can act on this month rather than someday." }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Predictions are offered as guidance. Where a difficult period is indicated, it is explained along with what strengthens you through it — never as a threat and never as a reason to purchase something expensive." }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "hero",
+						size: "xl",
+						asChild: true,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+							to: "/contact",
+							children: "Book a Consultation"
+						})
+					})
+				]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+				src: kundli_method_default,
+				alt: "Hand-drawn Vedic kundli chart and astrological instruments",
+				className: "h-full w-full rounded-lg border border-gold object-cover"
+			})]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrustStrip, {}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+			className: "section-shell py-16",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionHeading, {
+				eyebrow: "Methodology",
+				title: "Four layers, in a fixed order"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "grid gap-4 md:grid-cols-4",
+				children: [
+					[
+						Compass,
+						"Lagna Chart",
+						"The foundation: houses, lords and the strength of each significator."
+					],
+					[
+						BookOpen,
+						"Navamsa D-9",
+						"Maturity and true strength of planets, marriage and dharma."
+					],
+					[
+						HeartHandshake,
+						"Vimshottari Dasha",
+						"When a promise in the chart is likely to actually unfold."
+					],
+					[
+						ShieldCheck,
+						"Transits",
+						"Present-day triggers that fine-tune the timing of events."
+					]
+				].map(([Icon, t, d]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "rounded-md border border-border bg-card p-5",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: "mb-3 size-7 text-saffron" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+							className: "font-display text-2xl text-maroon",
+							children: t
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "mt-2 text-sm leading-6 text-muted-foreground",
+							children: d
+						})
+					]
+				}, t))
+			})]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
+			className: "bg-cream py-16",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "section-shell grid gap-8 md:grid-cols-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+					className: "font-display text-3xl text-maroon",
+					children: "Areas of expertise"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
+					className: "mt-4 grid gap-2 text-sm text-muted-foreground",
+					children: [
+						"Marriage timing, matching and married-life difficulties",
+						"Career direction, promotion and job change windows",
+						"Business growth, partnership and risk cycles",
+						"Health-sensitive periods and supportive routines",
+						"Children, conception and education guidance",
+						"Court cases, property and dispute timing",
+						"Foreign travel and settlement prospects",
+						"Past-life and karmic pattern analysis",
+						"Birth time rectification",
+						"Vastu for home and workplace"
+					].map((x) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+						className: "border-b border-border pb-2",
+						children: ["• ", x]
+					}, x))
+				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "space-y-4",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+							className: "font-display text-3xl text-maroon",
+							children: "Why people trust us"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "leading-7 text-muted-foreground",
+							children: "We never use fear to sell remedies, never promise guaranteed outcomes, and never share your personal details. If astrology cannot help with your question, we say so and suggest the right professional instead."
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Disclaimer, {})
+					]
+				})]
+			})
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footer, {})
+	] });
+}
+//#endregion
+export { About as component };
