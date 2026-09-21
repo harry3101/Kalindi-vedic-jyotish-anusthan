@@ -12,4 +12,12 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      allowedHosts: ["kalindi-vedic-jyotish-anusthan.onrender.com"],
+    },
+    preview: {
+      allowedHosts: ["kalindi-vedic-jyotish-anusthan.onrender.com"],
+    },
+  },
 });
