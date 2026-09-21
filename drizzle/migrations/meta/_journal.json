@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1789893816575,
+      "tag": "0000_create_astrology_requests_and_admin_roles",
+      "breakpoints": true
+    }
+  ]
+}

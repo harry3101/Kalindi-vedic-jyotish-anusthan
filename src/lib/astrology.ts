@@ -1,0 +1,80 @@
+import * as Astronomy from "astronomy-engine";
+
+const signs = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+const tithis = ["Pratipada","Dwitiya","Tritiya","Chaturthi","Panchami","Shashthi","Saptami","Ashtami","Navami","Dashami","Ekadashi","Dwadashi","Trayodashi","Chaturdashi","Purnima","Pratipada","Dwitiya","Tritiya","Chaturthi","Panchami","Shashthi","Saptami","Ashtami","Navami","Dashami","Ekadashi","Dwadashi","Trayodashi","Chaturdashi","Amavasya"];
+const nakshatras = ["Ashwini","Bharani","Krittika","Rohini","Mrigashira","Ardra","Punarvasu","Pushya","Ashlesha","Magha","Purva Phalguni","Uttara Phalguni","Hasta","Chitra","Swati","Vishakha","Anuradha","Jyeshtha","Mula","Purva Ashadha","Uttara Ashadha","Shravana","Dhanishta","Shatabhisha","Purva Bhadrapada","Uttara Bhadrapada","Revati"];
+const yogas = ["Vishkambha","Priti","Ayushman","Saubhagya","Shobhana","Atiganda","Sukarma","Dhriti","Shula","Ganda","Vriddhi","Dhruva","Vyaghata","Harshana","Vajra","Siddhi","Vyatipata","Variyana","Parigha","Shiva","Siddha","Sadhya","Shubha","Shukla","Brahma","Indra","Vaidhriti"];
+const bodies = [Astronomy.Body.Sun,Astronomy.Body.Moon,Astronomy.Body.Mercury,Astronomy.Body.Venus,Astronomy.Body.Mars,Astronomy.Body.Jupiter,Astronomy.Body.Saturn];
+const bodyNames = ["Sun","Moon","Mercury","Venus","Mars","Jupiter","Saturn"];
+const norm=(n:number)=>((n%360)+360)%360;
+const ayanamsa=(date:Date)=>24.1 + (date.getUTCFullYear()-2026)*0.01397;
+
+// Safe longitude calculator with fallback
+const lon=(body:Astronomy.Body,date:Date)=>{
+  try {
+    return norm(Astronomy.EclipticLongitude(body,date)-ayanamsa(date));
+  } catch (e) {
+    // Fallback: simple zodiac position based on date
+    const dayOfYear = Math.floor((date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000);
+    const baseLon = (dayOfYear * 0.9856) + (body === Astronomy.Body.Moon ? dayOfYear * 12.2 : 0);
+    return norm(baseLon - ayanamsa(date));
+  }
+};
+
+export const cityOptions = [
+  {name:"New Delhi",lat:28.6139,lng:77.209},{name:"Mumbai",lat:19.076,lng:72.8777},{name:"Kolkata",lat:22.5726,lng:88.3639},{name:"Chennai",lat:13.0827,lng:80.2707},{name:"Bengaluru",lat:12.9716,lng:77.5946},{name:"Aligarh",lat:27.8974,lng:78.088},{name:"Varanasi",lat:25.3176,lng:82.9739},{name:"Jaipur",lat:26.9124,lng:75.7873},{name:"Lucknow",lat:26.8467,lng:80.9462}
+];
+
+export function getPanchang(date:Date, lat=27.8974, lng=78.088){
+  const sun=lon(Astronomy.Body.Sun,date), moon=lon(Astronomy.Body.Moon,date), phase=norm(moon-sun);
+  const obs=new Astronomy.Observer(lat,lng,0);
+  const rise=(body:Astronomy.Body,dir:number)=>{
+    try {
+      return Astronomy.SearchRiseSet(body,obs,dir,date,1)?.date;
+    } catch (e) {
+      return undefined;
+    }
+  };
+  const fmt=(d?:Date)=>d?new Intl.DateTimeFormat("en-IN",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Kolkata"}).format(d):"—";
+  const sunrise=rise(Astronomy.Body.Sun,1), sunset=rise(Astronomy.Body.Sun,-1);
+  return { tithi:tithis[Math.floor(phase/12)], paksha:phase<180?"Shukla Paksha":"Krishna Paksha", nakshatra:nakshatras[Math.floor(moon/(360/27))], yoga:yogas[Math.floor(norm(sun+moon)/(360/27))], karana:["Bava","Balava","Kaulava","Taitila","Garaja","Vanija","Vishti"][Math.floor(phase/6)%7], moonRashi:signs[Math.floor(moon/30)], sunRashi:signs[Math.floor(sun/30)], sunrise:fmt(sunrise), sunset:fmt(sunset), moonrise:fmt(rise(Astronomy.Body.Moon,1)), moonset:fmt(rise(Astronomy.Body.Moon,-1)), rahu:"07:30 – 09:00", yamaganda:"10:30 – 12:00", gulika:"13:30 – 15:00", abhijit:"11:48 – 12:34", brahma:"04:42 – 05:30", vikram:`${date.getFullYear()+57}`, shaka:`${date.getFullYear()-78}`, month:"Ashwin" };
+}
+export function generateKundli(input:{name:string;birthDate:string;birthTime:string;birthPlace:string}){
+  try {
+    const date=new Date(`${input.birthDate}T${input.birthTime}:00+05:30`);
+    const planets=bodies.map((b,i)=>{const degree=lon(b,date);return {name:bodyNames[i],sign:signs[Math.floor(degree/30)],degree:`${(degree%30).toFixed(1)}°`,house:(Math.floor(degree/30)%12)+1};});
+    const moon=planets[1], mars=planets[4];
+    return {lagna:signs[(date.getHours()*2+date.getMinutes()/30+6)%12|0],planets,dasha:`${moon.sign} influence — Moon-led sub-period emphasis`,doshas:{Manglik:[1,4,7,8,12].includes(mars.house)?"Present — requires full cancellation review":"Not prominent","Kaal Sarp":"No complete formation indicated","Pitra":"No strong primary indication"}};
+  } catch (e) {
+    console.error("Error generating kundli:", e);
+    return {lagna:"Unknown",planets:[],dasha:"Unable to calculate",doshas:{Manglik:"Unable to determine","Kaal Sarp":"Unable to determine","Pitra":"Unable to determine"}};
+  }
+}
+export function matchKundli(a:{birthDate:string},b:{birthDate:string}){ const seed=Math.abs(new Date(a.birthDate).getTime()/86400000-new Date(b.birthDate).getTime()/86400000); const total=20+(seed%15); return {total:Math.round(total),items:[['Varna',1],['Vashya',Math.min(2,1+(seed%2))],['Tara',Math.min(3,2+(seed%2))],['Yoni',Math.min(4,2+(seed%3))],['Graha Maitri',Math.min(5,3+(seed%3))],['Gana',Math.min(6,3+(seed%4))],['Bhakoot',Math.min(7,4+(seed%4))],['Nadi',Math.min(8,5+(seed%4))]].map(([name,score])=>({name,score}))}; }
+export function choghadiya(date:Date){
+  const dayChoghadiya=[
+    {name:"Rog",nature:"Negative"},
+    {name:"Labha",nature:"Positive"},
+    {name:"Nritya",nature:"Neutral"},
+    {name:"Pushti",nature:"Positive"},
+    {name:"Rog",nature:"Negative"},
+    {name:"Labha",nature:"Positive"},
+    {name:"Nritya",nature:"Neutral"},
+    {name:"Pushti",nature:"Positive"},
+  ];
+  const nightChoghadiya=[
+    {name:"Pushti",nature:"Positive"},
+    {name:"Nritya",nature:"Neutral"},
+    {name:"Labha",nature:"Positive"},
+    {name:"Rog",nature:"Negative"},
+    {name:"Pushti",nature:"Positive"},
+    {name:"Nritya",nature:"Neutral"},
+    {name:"Labha",nature:"Positive"},
+    {name:"Rog",nature:"Negative"},
+  ];
+  const idx=Math.floor(date.getDate()%8);
+  return {
+    day:dayChoghadiya.map((c,i)=>({...c,time:`${6+i*1.5}:00 – ${6+(i+1)*1.5}:00`})),
+    night:nightChoghadiya.map((c,i)=>({...c,time:`${18+i*1.5}:00 – ${18+(i+1)*1.5}:00`}))
+  };
+}
